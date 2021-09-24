@@ -1,6 +1,4 @@
 import React from 'react'
-import UserInfo from './UserInfo'
-
 
 class User extends React.Component{
     // eslint-disable-next-line
