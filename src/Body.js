@@ -1,9 +1,10 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import API, { endpoints } from "./API";
+import { AuthAPI, endpoints } from "./API";
 import { Card, Button, Pagination } from "react-bootstrap";
 import {Link} from 'react-router-dom';
 import queryString from 'query-string'
+import cookies from 'react-cookies'
 
 class Body extends React.Component{
     constructor(){
@@ -15,7 +16,11 @@ class Body extends React.Component{
     }
 
     loadProduct = (pageNum="0") =>{
-        API.get(`${endpoints['products']}${pageNum}`).then(res =>{
+        AuthAPI.get(`${endpoints['products']}${pageNum}`, {
+            headers:{
+                'Authorization': `Bearer ${cookies.load('token')}`
+            }
+        }).then(res =>{
             console.info(`${endpoints['products']}${pageNum}`)
             this.setState({
                 'products': res.data.products,
