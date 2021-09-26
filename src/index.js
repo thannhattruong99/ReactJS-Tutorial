@@ -1,16 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import DemoRedux from './DemoRedux';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import { reducer } from './UserReducer';
+
+const store = createStore(reducer)
 
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+
+const render = () => ReactDOM.render(
+  <Provider store={store}>
+    <DemoRedux value={store.getState()} 
+      helloVi={() => store.dispatch({"type": "vi"})} 
+      helloEn={() => store.dispatch({"type": "en"})}
+    />
+  </Provider>,
   document.getElementById('root')
 );
+
+render()
+store.subscribe(render)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

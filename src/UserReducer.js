@@ -1,4 +1,4 @@
-export const reducer = ( state="unknown", action) =>{
+export const reducer = ( state="Konichiwoa", action) =>{
     switch(action.type){
         case 'vi':
             return "Xin chao"
