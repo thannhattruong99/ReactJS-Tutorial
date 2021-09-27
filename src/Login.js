@@ -1,24 +1,44 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { Button, Form } from "react-bootstrap"
 import { Redirect } from "react-router"
-import { UserContext } from "./App"
+import API, { AuthAPI, endpoints } from "./API"
+import cookies from 'react-cookies'
+import { useDispatch } from "react-redux"
 
 
 export default function Login(){
     const [username, setUsername] = useState(null)
     const [password, setPassword] = useState(null)
     const [isLogged, setLogged] = useState(false)
-    const auth = useContext(UserContext)
-    // useEffect(() =>{
-    //     console.info("Test")
-    //     console.info(Math.random())
-    // })
+    const dispatch = useDispatch()
 
     const login = async (event) =>{
         event.preventDefault()
-        auth.login(username, password)
+        let res = await API.post(endpoints['login'],{
+          'username': username,
+          'password': password
+        })
+          
+        cookies.save("token", res.data.token)
+    
+        //'Authorization': `Bearer ${cookies.load('token')}`
+        //khai báo ở đây để nạp lại token
+        let user = await AuthAPI.get(endpoints['user-detail']+ username, {
+            headers:{
+                'Authorization': `Bearer ${cookies.load('token')}`
+            }
+        })
+    
+        console.info("user.data: " + user.data)
+        cookies.save("user", user.data)
+
+        dispatch({
+          "type": "login",
+          "payload": user.data
+        })
+
         setLogged(true)
-    }
+      }
 
     if(isLogged)
         return <Redirect to="/" />

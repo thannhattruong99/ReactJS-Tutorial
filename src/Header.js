@@ -1,15 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { AuthAPI, endpoints } from "./API";
 import {Link} from 'react-router-dom';
 import './Style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav } from "react-bootstrap";
 import cookies from 'react-cookies'
-import { UserContext } from "./App";
+import { useStore } from "react-redux";
 
 export default function Header (){
     const [cites, setCites] = useState([])
-    const auth = useContext(UserContext)
+    const store = useStore()
+    const auth = store.getState()
+    // const auth = useContext(UserContext)
     
     useEffect(() =>{
         AuthAPI.get(endpoints['cites'],{
@@ -21,7 +23,7 @@ export default function Header (){
         })
     })
     
-    var user = auth.user
+    let user = auth
     if(user == null)
         user = cookies.load("user")
     

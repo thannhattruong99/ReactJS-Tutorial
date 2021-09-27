@@ -1,10 +1,5 @@
-export const reducer = ( state="Konichiwoa", action) =>{
-    switch(action.type){
-        case 'vi':
-            return "Xin chao"
-        case 'en':
-            return "Hello"
-        default: 
-            return state
-    }
+export const reducer = ( state=null, action) =>{
+    if(action.type === 'login')
+        return action.payload  // chua thong tin user
+    return state
 }

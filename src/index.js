@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import DemoRedux from './DemoRedux';
+import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { reducer } from './UserReducer';
@@ -13,10 +13,7 @@ const store = createStore(reducer)
 
 const render = () => ReactDOM.render(
   <Provider store={store}>
-    <DemoRedux value={store.getState()} 
-      helloVi={() => store.dispatch({"type": "vi"})} 
-      helloEn={() => store.dispatch({"type": "en"})}
-    />
+    <App />
   </Provider>,
   document.getElementById('root')
 );
